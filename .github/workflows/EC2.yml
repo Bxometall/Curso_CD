@@ -15,3 +15,14 @@
             name: programa
             
         - uses: actions/checkout@v3 # para ter os arquivos estáticos da aplicação (html, css...)
+        
+        - name: Deploy to Staging server
+          uses: easingthemes/ssh-deploy@main
+          env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            ARGS: "-rlgoDzvc -i"
+            SOURCE: "dist/"
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            TARGET: ${{ secrets.REMOTE_TARGET }}
+            EXCLUDE: "/dist/, /node_modules/"
