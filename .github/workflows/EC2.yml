@@ -25,7 +25,8 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }} # com sua instancia selecionada, clica em conectar, lá tem o usuário
           # TARGET: ${{ secrets.REMOTE_TARGET }}
           TARGET: /home/${{ secrets.REMOTE_USER }}
-          EXCLUDE: "/dist/, /node_modules/, /postgres-data/"
+          # EXCLUDE: "/dist/, /node_modules/, /postgres-data/"
+          EXCLUDE: "postgres-data"
 
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
