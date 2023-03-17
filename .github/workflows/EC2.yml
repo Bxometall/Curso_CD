@@ -7,12 +7,16 @@ jobs:
   EC2:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3 # para ter os arquivos estáticos da aplicação (html, css...)
+
       - name: Download a Build Artifact # baixando o binário compilado da aplicação em Go
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v3
         with:
           # Artifact name
           name: programa
-      - uses: actions/checkout@v3 # para ter os arquivos estáticos da aplicação (html, css...)
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Deploy to Staging server
         uses: easingthemes/ssh-deploy@main
