@@ -44,7 +44,13 @@ jobs:
             export DBPORT=${{ secrets.DBPORT }}
             export PORT=8000
             chmod +x
-            nohup ./main &
+            nohup ./main > nohup.out 2> nohup.err < /dev/null &
           # pra eu lembrar apenas, estou usando o usuário padrao do postgres que é postgres kek,
           # outra coisa, a senha é a senha quando vc cria o banco no RDS, DBName msm da fase de testes => root
           # mais uma, esse PORT é a porta onde a aplicacao vai rodar
+          # nohup config:
+          # o programa nohup gera uma saída onde iremos armazenar no nohup.out com o comando > (maior q)
+          # os erros irão ser a segunda saída, isso é default, então pegamos o segundo item e armazenamos: 2> nohup.err
+          # Entradas, caso seu script espere uma entrada, seu programa
+          # para configurar e não ter problema casooooo tenha alguma entrada e não seja passada podemos por o seguinte:
+          # < /dev/null, com isso a gente sabe que ele sempre irá receber um NULL na entrada, assim a app não congela
