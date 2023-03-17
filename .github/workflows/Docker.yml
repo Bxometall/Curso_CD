@@ -1,45 +1,54 @@
 name: Docker
 
 on:
-  workflow_call:
+  workflow_call: # it runs only being called by other routine, in this case, is on go.yml! This is the only way it can run
 
 jobs:
-
   docker:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
 
-    - name: setup Docker Build
-      uses: docker/setup-buildx-action@v2.0.0
-      
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-    # Artifact name
-        name: programa
-      
-    - name: Docker Login
-  # You may pin to the exact commit or the version.
-  # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
-      uses: docker/login-action@v2.0.0
-      with:
-    # Username used to log against the Docker registry
-        username: leonardosartorello
-    # Password or personal access token used to log against the Docker registry
-        password: ${{ secrets.PASSWORD_DOCKER_HUB }}
-        
-        
-    - name: Build and push Docker images
-  # You may pin to the exact commit or the version.
-  # uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
-      uses: docker/build-push-action@v3.0.0
-      with:
-    # Build's context is the set of files located in the specified PATH or URL
-        context: .
-    # Path to the Dockerfile
-        file: ./Dockerfile
-    # Push is a shorthand for --output=type=registry
-        push: true
-    # List of tags
-        tags: leonardosartorello/go_ci:${{github.ref_name}}
+    steps:
+      - uses: actions/checkout@v3
+
+      # this is configured by using code that already exists on Marketplace of Github Actins
+      - name: setup docker build
+        uses: docker/setup-buildx-action@v2.4.0
+
+      # getting the artifact after our docker is ready to be used
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          # Artifact name
+          name: program
+          # Destination path
+          # path: . # optional
+
+      - name: Docker Login
+        # You may pin to the exact commit or the version.
+        # uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@v2.1.0
+        with:
+          # Server address of Docker registry. If not set then will default to Docker Hub
+          # registry: # optional, since we are using docker hub, just comment this line
+          # Username used to log against the Docker registry
+          username: bxometall # optional
+          # Password or personal access token used to log against the Docker registry
+          password: ${{ secrets.DOCKER_HUB_PASS }} # optional
+          # Specifies whether the given registry is ECR (auto, true or false)
+          # ecr: # optional, default is auto
+          # Log out from the Docker registry at the end of a job
+          # logout: # optional, default is true
+
+      - name: Build and push Docker images
+        # You may pin to the exact commit or the version.
+        # uses: docker/build-push-action@37abcedcc1da61a57767b7588cb9d03eb57e28b3
+        uses: docker/build-push-action@v3.3.0
+        with:
+          context: .
+          # Path to the Dockerfile
+          file: ./Dockerfile
+          # Push is a shorthand for --output=type=registry
+          push: true # optional, default is false
+          tags: bxometall/go_ci:${{ github.ref_name }} # tags will be the same that goes on docker hub's name config + branch's name
+          # GitHub Token used to authenticate against a repository for Git context
+          # github-token: # optional, default is ${{ github.token }}
