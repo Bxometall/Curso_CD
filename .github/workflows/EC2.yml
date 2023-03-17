@@ -43,7 +43,7 @@ jobs:
             export DBNAME=${{ secrets.DBNAME }}
             export DBPORT=${{ secrets.DBPORT }}
             export PORT=8000
-            chmod +x
+            chmod +x main
             nohup ./main > nohup.out 2> nohup.err < /dev/null &
           # pra eu lembrar apenas, estou usando o usuário padrao do postgres que é postgres kek,
           # outra coisa, a senha é a senha quando vc cria o banco no RDS, DBName msm da fase de testes => root
