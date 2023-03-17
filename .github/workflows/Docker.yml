@@ -19,7 +19,7 @@ jobs:
         uses: actions/download-artifact@v3.0.2
         with:
           # Artifact name
-          name: program
+          name: programa
           # Destination path
           # path: . # optional
 
