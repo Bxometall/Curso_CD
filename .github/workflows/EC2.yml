@@ -26,3 +26,19 @@
             REMOTE_USER: ${{ secrets.REMOTE_USER }}
             TARGET: ${{ secrets.REMOTE_TARGET }}
             EXCLUDE: "/dist/, /node_modules/"
+        
+        - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v0.1.8
+          with:
+            host: ${{ secrets.REMOTE_HOST }}
+            username: ${{ secrets.REMOTE_USER }}
+            # password: ${{ secrets.PASSWORD }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            # port: ${{ secrets.PORT }}
+            port: 22
+            script: |
+              export HOST=${{ secrets.DBHOST }}
+              export USER=${{ secrets.DBUSER }}
+              export PASSWORD=${{ secrets.DBPASSWORD }}
+              export DBNAME=${{ secrets.DBNAME }}
+              export PORT=${{ secrets.DBPORT }}
