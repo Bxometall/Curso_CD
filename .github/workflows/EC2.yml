@@ -36,10 +36,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           # port: ${{ secrets.PORT }}
           port: 22
-          script:
-            | # pra eu lembrar apenas, estou usando o usuário padrao do postgres que é postgres kek, outra coisa, a senha é a senha quando vc cria o banco no RDS, DBName msm da fase de testes => root
+          script: |
             export HOST=${{ secrets.DBHOST }}
             export USER=${{ secrets.DBUSER }}
             export PASSWORD=${{ secrets.DBPASSWORD }}
             export DBNAME=${{ secrets.DBNAME }}
-            export PORT=${{ secrets.DBPORT }}
+            export DBPORT=${{ secrets.DBPORT }}
+            export PORT=8000
+          # pra eu lembrar apenas, estou usando o usuário padrao do postgres que é postgres kek,
+          # outra coisa, a senha é a senha quando vc cria o banco no RDS, DBName msm da fase de testes => root
+          # mais uma, esse PORT é a porta onde a aplicacao vai rodar
